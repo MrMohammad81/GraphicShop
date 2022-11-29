@@ -27,8 +27,12 @@ Route::prefix('admin')->group(function ()
     {
        Route::get('create',[ProductsController::class , 'create'])->name('admin.products.create');
        Route::post('',[ProductsController::class , 'store'])->name('admin.products.store');
-
-
        Route::get('all',[ProductsController::class , 'all'])->name('admin.products.all');
+
+       Route::get('{product_id}/downlaod/demoImage',[ProductsController::class , 'downlaodDemo'])->name('admin.products.downlaod.demoImage');
+       Route::get('{product_id}/downlaod/sourceImage',[ProductsController::class , 'downloadSource'])->name('admin.products.downlaod.demo.sourceImage');
+       Route::get('{product_id}/delete',[ProductsController::class , 'delete'])->name('admin.products.delete');
+       Route::get('{product_id}/edit',[ProductsController::class , 'edit'])->name('admin.products.edit');
+       Route::put('{product_id}/update' , [ProductsController::class,'update'])->name('admin.products.update');
     });
 });

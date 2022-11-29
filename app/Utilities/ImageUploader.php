@@ -6,11 +6,14 @@ use Illuminate\Support\Facades\Storage;
 
 class ImageUploader
 {
+    // for source
     public static function upload($image , $patch , $diskType = 'public_storage')
     {
-        Storage::disk($diskType)->put($patch, File::get($image));
+        if (!is_null($image))
+            Storage::disk($diskType)->put($patch, File::get($image));
     }
 
+    // for demo & thumbnail
     public static function uploadMany(array $images , $patch , $diskType = 'public_storage')
     {
         $imagesPatch = [];
@@ -18,7 +21,7 @@ class ImageUploader
         {
             $fullPatch = $patch . $key . '_' . $image->getClientOriginalName();
 
-            self::upload($image,$fullPatch,$diskType);
+            self::upload($image, $fullPatch, $diskType);
 
             $imagesPatch += [$key => $fullPatch];
         }
