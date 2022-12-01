@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Admin\PaymentsController;
 
 // Admin Routes
 Route::get('test' ,function ()
@@ -47,4 +49,21 @@ Route::prefix('admin')->group(function ()
         Route::get('{user_id}/edit',[UsersController::class,'edit'])->name('admin.users.edit');
         Route::put('{user_id}/update' , [UsersController::class,'update'])->name('admin.users.update');
     });
+
+    // orders routs
+    Route::prefix('orders')->group(function ()
+    {
+        Route::get('',[OrdersController::class , 'all'])->name('admin.orders.all');
+    });
+
+    // payments route
+    Route::prefix('payments')->group(function ()
+    {
+       Route::get('',[PaymentsController::class,'all'])->name('admin.payments.all');
+    });
+});
+
+Route::get('/',function ()
+{
+    return view('layouts.frontend.master');
 });
