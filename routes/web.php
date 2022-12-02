@@ -6,12 +6,11 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\PaymentsController;
+use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Home\ProductsController as HomeProductsController;
+
 
 // Admin Routes
-Route::get('test' ,function ()
-{
-    dd(bcrypt('password'));
-});
 Route::prefix('admin')->group(function ()
 {
    Route::prefix('categories')->group(function ()
@@ -63,7 +62,9 @@ Route::prefix('admin')->group(function ()
     });
 });
 
-Route::get('/',function ()
+// Home Routes
+Route::prefix('')->group(function ()
 {
-    return view('layouts.frontend.master');
+   Route::get('',[HomeProductsController::class , 'index'])->name('home.products.all');
+   Route::get('{product_id}/show',[HomeProductsController::class , 'show'])->name('home.products.show');
 });
