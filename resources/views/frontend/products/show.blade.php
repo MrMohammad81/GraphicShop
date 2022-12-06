@@ -4,18 +4,18 @@
     <!-- breadcrumb -->
     <div class="container">
         <div class="bread-crumb flex-w p-t-30">
-            <a href="index.html" class="mtext-106 cl8 hov-cl1 trans-04">
+            <a href="{{ route('home.products.all') }}" class="mtext-106 cl8 hov-cl1 trans-04">
                 خانه
                 <i class="fa fa-angle-left m-l-9 m-r-10" aria-hidden="true"></i>
             </a>
 
-            <a href="product.html" class="mtext-106 cl8 hov-cl1 trans-04">
-                کارت ویزیت
+            <span class="mtext-106 cl8 hov-cl1 trans-04">
+                {{ $product->category->title }}
                 <i class="fa fa-angle-left m-l-9 m-r-10" aria-hidden="true"></i>
-            </a>
+            </span>
 
             <span class="mtext-106 cl4">
-				کارت ویزیت مشاور املاک
+				{{ $product->title }}
 			</span>
         </div>
     </div>

@@ -33,11 +33,12 @@
                 <!-- Search product -->
                 <div class="dis-none panel-search w-full p-t-10 p-b-15">
                     <div class="bor8 dis-flex p-l-15">
-                        <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+                        <form action="{{ route('home.products.all') }}" style="display: inline">
+                         <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04" style="display: inline">
                             <i class="zmdi zmdi-search"></i>
-                        </button>
-
-                        <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="متن خود را اینجا بنویسید و enter بزنید ...">
+                         </button>
+                        <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search" placeholder="متن خود را اینجا بنویسید و enter بزنید ...">
+                        </form>
                     </div>
                 </div>
 
@@ -78,19 +79,19 @@
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
+                                    <a href="?filter=orderBy&action=priceFilter10to100" class="filter-link stext-106 trans-04">
                                         ۱۰ الی ۱۰۰ هزار تومان
                                     </a>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
+                                    <a href="?filter=orderBy&action=priceFilter101to200" class="filter-link stext-106 trans-04">
                                         ۱۰۱ الی ۲۰۰ هزار تومان
                                     </a>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
+                                    <a href="?filter=orderBy&action=priceFilter201to300" class="filter-link stext-106 trans-04">
                                         ۲۰۱ الی ۳۰۰ هزار تومان
                                     </a>
                                 </li>
@@ -104,31 +105,25 @@
 
                             <ul>
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
+                                    <a href="?filter=orderBy&action=defult" class="filter-link stext-106 trans-04">
                                         پیش فرض
                                     </a>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        محبوبیت
-                                    </a>
-                                </li>
-
-                                <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04 filter-link-active">
+                                    <a href="?filter=orderBy&action=newest" class="filter-link stext-106 trans-04 ">
                                         جدیدترین
                                     </a>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
+                                    <a href="?filter=orderBy&action=lowToHigh" class="filter-link stext-106 trans-04">
                                         قیمت:‌ کم به زیاد
                                     </a>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
+                                    <a href="?filter=orderBy&action=highToLow" class="filter-link stext-106 trans-04">
                                         قیمت:‌زیاد به کم
                                     </a>
                                 </li>
@@ -232,8 +227,9 @@
 
                     <div class="col-md-6 col-lg-5 p-b-30">
                         <div class="p-l-50 p-t-5 p-lr-0-lg">
+
                             <h4 class="mtext-105 cl2 js-name-detail p-b-14">
-                                کارت ویزیت مشاور املاک
+
                             </h4>
 
                             <span class="mtext-106 cl2">
