@@ -53,7 +53,7 @@
                         </h4>
 
                         <span class="mtext-106 cl2">
-							 {{ $product->price }} هزار تومان
+							 {{ number_format( $product->price ) }}  تومان
 						</span>
 
                         <p class="stext-102 cl3 p-t-23">{!! $product->description !!}</p>
@@ -63,9 +63,7 @@
 
                             <div class="flex-w flex-r-m p-b-10">
                                 <div class="flex-w flex-m respon6-next">
-                                    <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-                                        افزودن به سبد خرید
-                                    </button>
+                                    <a href="{{ route('home.products.addToBasket' , $product->id) }}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">افزودن به سبد خرید</a>
                                 </div>
                             </div>
                         </div>

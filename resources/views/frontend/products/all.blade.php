@@ -154,7 +154,7 @@
                                 </a>
 
                                 <span class="stext-105 cl3">
-									{{ $product->price }} هزار تومان
+									{{ number_format($product->price) }}  تومان
 								</span>
                             </div>
                         </div>
