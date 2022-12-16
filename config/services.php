@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'payment_getaway' => [
+        'id_pay' => [
+            'api_key' => '16619157-437c-4743-89f6-c0698322d126',
+        ]
+    ]
 ];
