@@ -9,55 +9,60 @@ use Illuminate\Support\Facades\Cookie;
 
 class BasketController extends Controller
 {
-    public $minuts = 600;
+    public $minutes = 600;
 
     public function addToBasket($product_id)
     {
+
         $product = Product::findOrFail($product_id);
 
-        $basket = json_decode(Cookie::get('basket') , true);
+        $basket = json_decode(Cookie::get('basket'), true);
 
-        if (!$basket)
+        if(!$basket)
         {
-            $basket =
-                [
-                    $product->id => [
-                        'title' => $product->title,
-                        'price' => $product->price,
-                        'demo_url' => $product->demo_url
-                    ]
-                ];
-            Cookie::queue('basket' , json_encode($basket) , $this->minuts);
+            $basket = [
+                $product->id => [
+                    'title' => $product->title,
+                    'price' => $product->price,
+                    'demo_url' => $product->demo_url,
+                ],
+            ];
 
-            return back()->with('success' , 'محصول به سبد خرید اضافه شد');
+            $basket = json_encode($basket);
+
+            Cookie::queue('basket', $basket, $this->minutes);
+
+            return back()->with('success', 'محصول به سبد خرید اضافه شد');
         }
-        if (isset($basket[$product->id]))
+
+        if(isset($basket[$product->id]))
         {
-            return back()->with('success' , 'محصول به سبد خرید اضافه شد');
+            return back()->with('success', 'محصول به سبد خرید اضافه شد');
         }
 
         $basket[$product->id] = [
             'title' => $product->title,
             'price' => $product->price,
-            'demo_url' => $product->demo_url
+            'demo_url' => $product->demo_url,
         ];
 
-        Cookie::queue('basket' , json_encode($basket) , $this->minuts);
 
-        return back()->with('success' , 'محصول به سبد خرید اضافه شد');
+        Cookie::queue('basket', json_encode($basket), $this->minutes);
+
+        return back()->with('success', 'محصول به سبد خرید اضافه شد');
     }
 
     public function removeFromBasket($product_id)
     {
-       $basket = json_decode(Cookie::get('basket') , true);
 
-       if (isset($basket[$product_id]))
-       {
-           unset($basket[$product_id]);
-       }
+        $basket = json_decode(Cookie::get('basket'), true);
 
-       Cookie::queue('basket' , json_encode($basket) , $this->minuts);
+        if(isset($basket[$product_id])){
+            unset($basket[$product_id]);
+        }
 
-       return back()->with('success','محصول از سبد خرید حذف شد');
+        Cookie::queue('basket', json_encode($basket), $this->minutes);
+
+        return back()->with('success', 'محصول از سبد خرید حذف شد');
     }
 }

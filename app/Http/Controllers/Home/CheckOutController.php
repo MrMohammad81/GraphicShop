@@ -10,7 +10,7 @@ class CheckOutController extends Controller
 {
     public function show()
     {
-        $products = json_decode(Cookie::get('basket') , true);
+        $products = !is_null(Cookie::get('basket'))  ? json_decode(Cookie::get('basket') , true) : [];
 
         $productPrice = number_format(array_sum(array_column(json_decode(Cookie::get('basket') , true) , 'price')));
 
