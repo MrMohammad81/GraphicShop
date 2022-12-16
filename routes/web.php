@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\ProductsController;
@@ -73,4 +74,9 @@ Route::prefix('')->group(function ()
    Route::get('checkout',[CheckOutController::class , 'show'])->name('home.checkout.show');
 });
 
-Route::get('pay',[\App\Http\Controllers\PaymentController::class , 'pay']);
+// Payment Routes
+Route::prefix('payment')->group(function ()
+{
+   Route::post('pay',[PaymentController::class ,'pay'])->name('payments.pay');
+   Route::post('callback',[PaymentController::class ,'callback'])->name('payments.callback');
+});
