@@ -1,9 +1,9 @@
 <?php
 namespace App\Services\Payments;
 
-use App\Services\Contracts\RequestInterface;
+use App\Services\Payments\Contracts\RequestInterface;
 use App\Services\Payments\Exception\ProviderNotFoundException;
-use http\Cookie;
+use mysql_xdevapi\Exception;
 
 class PaymentService
 {
@@ -22,7 +22,7 @@ class PaymentService
 
     private function findProvider()
     {
-        $className = 'App\\Services\\Payments\\Providers' . $this->providerName;
+        $className = 'App\\Services\\Payments\\Providers\\' . $this->providerName;
 
         if (!class_exists($className))
         {

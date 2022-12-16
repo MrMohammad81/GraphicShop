@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Contracts;
+namespace App\Services\Payments\Contracts;
 
 interface PayableInterface
 {

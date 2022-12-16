@@ -72,3 +72,5 @@ Route::prefix('')->group(function ()
    Route::get('{product_id}/removeFromBasket' , [BasketController::class , 'removeFromBasket'])->name('home.remove.basket');
    Route::get('checkout',[CheckOutController::class , 'show'])->name('home.checkout.show');
 });
+
+Route::get('pay',[\App\Http\Controllers\PaymentController::class , 'pay']);

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Contracts;
+namespace App\Services\Payments\Contracts;
 
 abstract class AbstractProvider
 {
-    public function __construct(RequestInterface $request)
+    public function __construct(protected RequestInterface $request)
     {
 
     }
