@@ -1,51 +1,54 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Payment\PayRequest;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
-use App\Models\User;
-use App\Services\Payments\PaymentService;
-use App\Services\Payments\Requests\IDPayRequest;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Str;
+use App\Services\Payments\PaymentService;
+use App\Http\Requests\Payment\PayRequest;
+use App\Services\Payments\Requests\IDPayRequest;
 
 class PaymentController extends Controller
 {
     public function pay(PayRequest $request)
     {
+
         $validatedData = $request->validated();
 
-        /**************************  CREATE USER ***************************************/
-        $user = User::firstOrCreate(['email' => $validatedData['email']],
-            [
-                'name' => $validatedData['name'],
-                'mobile' => $validatedData['mobile'],
-                'email' => $validatedData['email'],
-            ]);
+        $user = User::firstOrCreate([
+            'email' => $validatedData['email'],
+        ],[
+            'name' => $validatedData['name'],
+            'mobile' => $validatedData['mobile'],
+        ]);
 
-        /*************************** CREATE ORDER and ORDER_ITEM  ********************/
-        try {
-            $orderItems = json_decode(Cookie::get('basket') , true);
+
+        try{
+            $orderItems = json_decode(Cookie::get('basket'), true);
+
+            if(count($orderItems) <= 0){
+                throw new \InvalidArgumentException('سبد خرید شما خالی است');
+            }
 
             $products = Product::findMany(array_keys($orderItems));
 
-            $productPrice = $products->sum('price');
+            $productsPrice = $products->sum('price');
 
-            $refCode = Str::random(20);
+            $refCode = Str::random(30);
 
             $createdOrder = Order::create([
-               'amount' => $productPrice,
-               'ref_code' => $refCode,
-               'status' => 'unpaid',
-                'user_id' => $user->id
+                'amount' => $productsPrice,
+                'ref_code' => $refCode,
+                'status' => 'unpaid',
+                'user_id' => $user->id,
             ]);
 
-            $orderItemsForCreateOrder = $products->map(function ($product){
-                $currentProduct = $product->only(['id' , 'price']);
+            $orderItemsForCreatedOrder = $products->map(function($product){
+                $currentProduct = $product->only(['price', 'id']);
 
                 $currentProduct['product_id'] = $currentProduct['id'];
 
@@ -53,35 +56,36 @@ class PaymentController extends Controller
 
                 return $currentProduct;
             });
-           $createdOrder->orderItems()->createMany($orderItemsForCreateOrder->toArray());
 
-           $refId = rand(11111 , 99999);
+            $createdOrder->orderItems()->createMany($orderItemsForCreatedOrder->toArray());
 
-           $createPayment = Payment::create([
-               'gateway' => 'idpay',
-               'ref_id' => $refId,
-               'res_id' => $refId,
-               'status' => 'unpaid',
-               'order_id' => $createdOrder->id
-           ]);
+            $refId = rand(1111, 9999);
 
-           /******************  SEND INFO FOR PAY **************/
-            $idPayRequest = new IDPayRequest([
-                'amount' => $productPrice,
-                'user' => $user,
-                'orderId' => $refCode
+            $createdPayment = Payment::create([
+                'gateway' => 'idpay',
+                'ref_id' => $refId,
+                'res_id' => $refId,
+                'status' => 'unpaid',
+                'order_id' => $createdOrder->id,
             ]);
 
-            $paymentService = new PaymentService(PaymentService::IDPAY , $idPayRequest);
+            $idPayRequest = new IDPayRequest([
+                'amount' => $productsPrice,
+                'user' => $user,
+                'orderId' => $refCode,
+                'apiKey' => config('services.gateways.id_pay.api_key'),
+            ]);
+
+            $paymentService = new PaymentService(PaymentService::IDPAY, $idPayRequest);
 
             return $paymentService->pay();
 
-        }catch (\Exception $exception)
-        {
-            return back()->with('failed' , $exception->getMessage());
+        }catch(\Exception $e){
+            return back()->with('failed', $e->getMessage());
         }
+    }
 
-
-
+    public function callback()
+    {
     }
 }
