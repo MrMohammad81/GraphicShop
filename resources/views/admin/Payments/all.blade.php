@@ -59,7 +59,7 @@
                                         <td>
                                             <span class="badge bg-success">{{ $payment->status }}</span>
                                         </td>
-                                        <td>{{ $payment->ref_id }}</td>
+                                        <td>{{ $payment->res_id }}</td>
                                     </tr>
                                     @endforeach
                                     </tbody>

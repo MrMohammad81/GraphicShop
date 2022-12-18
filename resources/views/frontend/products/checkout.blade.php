@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <!-- Shoping Cart -->
+    <!-- Shopping Cart -->
     <div class="bg0 p-t-75 p-b-85">
         @include('errors.message')
         <div class="container">
