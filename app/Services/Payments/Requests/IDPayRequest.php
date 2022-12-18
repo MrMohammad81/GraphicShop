@@ -25,7 +25,7 @@ class IDPayRequest implements RequestInterface
 
     public function getAmount()
     {
-        return $this->amount;
+        return $this->amount * 10;
     }
 
     public function getOrderID()

@@ -4,6 +4,7 @@
     <title>سون گرافیک</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="/images/icons/favicon.png"/>
     <!--===============================================================================================-->
@@ -86,7 +87,7 @@
                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
                         <i class="zmdi zmdi-search"></i>
                     </div>
-                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"  data-notify="{{  is_null(\Illuminate\Support\Facades\Cookie::get('basket')) ? 0 : count(json_decode(\Illuminate\Support\Facades\Cookie::get('basket'), true)) }}">
+                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"  data-notify="{{  is_null(\Illuminate\Support\Facades\Cookie::get('basket')) or empty(\Illuminate\Support\Facades\Cookie::get('basket')) ? 0 : count(json_decode(\Illuminate\Support\Facades\Cookie::get('basket'), true)) }}">
                         <i class="zmdi zmdi-shopping-cart"></i>
                     </div>
                 </div>
@@ -172,7 +173,7 @@
         <div class="header-cart-content flex-w js-pscroll">
             <ul class="header-cart-wrapitem w-full">
 
-                @if (!is_null(\Illuminate\Support\Facades\Cookie::get('basket')))
+                @if (!is_null(\Illuminate\Support\Facades\Cookie::get('basket')) and !empty(\Illuminate\Support\Facades\Cookie::get('basket')))
                 @foreach(json_decode(\Illuminate\Support\Facades\Cookie::get('basket') , true) as $id => $value)
                 <li class="header-cart-item flex-w flex-t m-b-12">
                     <a href="{{ route('home.remove.basket' , $id) }}">
@@ -197,7 +198,7 @@
 
             <div class="w-full">
                 <div class="header-cart-total w-full p-tb-40">
-                    جمع کل: {{  is_null(\Illuminate\Support\Facades\Cookie::get('basket')) ? 0 : number_format(array_sum(array_column(json_decode(\Illuminate\Support\Facades\Cookie::get('basket') , true) , 'price'))) }} هزار تومان
+                    جمع کل: {{ is_null(\Illuminate\Support\Facades\Cookie::get('basket'))  ? 0 : number_format(array_sum(array_column(json_decode(\Illuminate\Support\Facades\Cookie::get('basket') , true) , 'price'))) }} هزار تومان
                 </div>
 
                 <div class="header-cart-buttons flex-w w-full">
